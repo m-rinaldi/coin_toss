@@ -2,6 +2,10 @@
 name = "coin_toss"
 version = "0.1.0"
 edition = "2018"
+authors = ["Jorge Rinaldi <jrg.rinaldi@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/m-rinaldi/coin_toss/"
+description = "minimalist library for coin tossing"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
