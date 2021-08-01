@@ -34,6 +34,14 @@ impl CoinFace {
     }
 }
 
+impl std::ops::Not for CoinFace {
+    type Output = Self;
+    fn not(mut self) -> Self {
+        self.flip();
+        self
+    }
+}
+
 impl std::fmt::Display for CoinFace {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let coin_str = match self {
@@ -67,6 +75,15 @@ mod tests {
 
         face.flip();
         assert_eq!(face, Heads);
+    }
+
+    #[test]
+    fn test_not() {
+        use CoinFace::*;
+        let mut face = Heads;
+
+        assert_eq!(!face, Tails);
+        assert_eq!(!!face, Heads);
     }
 
     #[test]
