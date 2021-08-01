@@ -24,6 +24,16 @@ impl Coin {
     }
 }
 
+impl CoinFace {
+    pub fn flip(&mut self) {
+        use CoinFace::*;
+        *self = match *self {
+            Heads => Tails,
+            Tails => Heads,
+        }
+    }
+}
+
 impl std::fmt::Display for CoinFace {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let coin_str = match self {
@@ -36,7 +46,6 @@ impl std::fmt::Display for CoinFace {
 
 #[cfg(test)]
 mod tests {
-
     use super::*;
     use CoinFace::*;
 
@@ -44,7 +53,20 @@ mod tests {
     fn test_toss() {
         let coin = Coin::new();
         let outcome = coin.toss();
+
         assert!(outcome == Heads || outcome == Tails);
+    }
+
+    #[test]
+    fn test_flip() {
+        use CoinFace::*;
+        let mut face = Heads;
+
+        face.flip();
+        assert_eq!(face, Tails);
+
+        face.flip();
+        assert_eq!(face, Heads);
     }
 
     #[test]
