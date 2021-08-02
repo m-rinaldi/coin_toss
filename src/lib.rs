@@ -80,7 +80,7 @@ mod tests {
     #[test]
     fn test_not() {
         use CoinFace::*;
-        let mut face = Heads;
+        let face = Heads;
 
         assert_eq!(!face, Tails);
         assert_eq!(!!face, Heads);
