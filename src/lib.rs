@@ -62,7 +62,7 @@ mod tests {
         let coin = Coin::new();
         let outcome = coin.toss();
 
-        assert!(outcome == Heads || outcome == Tails);
+        matches!(outcome, Heads | Tails);
     }
 
     #[test]
