@@ -1,5 +1,12 @@
-#[derive(Copy, Clone, Debug)]
-pub struct Coin;
+use rand::prelude::*;
+use rand_xoshiro::SplitMix64;
+use rand_core::SeedableRng;
+use std::cell::RefCell;
+
+#[derive(Clone, Debug)]
+pub struct Coin {
+    prng: RefCell<SplitMix64>,
+}
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub enum CoinFace {
@@ -8,12 +15,24 @@ pub enum CoinFace {
 }
 
 impl Coin {
-    pub fn new() -> Coin {
-        Coin
+    pub fn new() -> Self {
+        Coin {
+            prng: RefCell::new(SplitMix64::from_entropy()),
+        }
+    }
+
+    pub fn from_seed(seed: u64) -> Self {
+        Coin {
+            prng: RefCell::new(SplitMix64::seed_from_u64(seed)),
+        }
     }
 
     pub fn toss(&self) -> CoinFace {
-        let outcome: bool = rand::random();
+        let outcome;
+        {
+            let mut prng = self.prng.borrow_mut();
+            outcome = prng.gen();
+        }
 
         use CoinFace::*;
 
@@ -63,6 +82,28 @@ mod tests {
         let outcome = coin.toss();
 
         matches!(outcome, Heads | Tails);
+    }
+
+    #[test]
+    fn test_toss_with_same_seed() {
+        let (c1, c2) = {
+            let seed = 113;
+            (Coin::from_seed(seed), Coin::from_seed(seed))
+        };
+
+        let (mut v1, mut v2);
+        {
+            let create_vec = || Vec::with_capacity(2048);
+            v1 = create_vec();
+            v2 = create_vec();
+        };
+
+        for _ in 0..v1.capacity() {
+            v1.push(c1.toss());
+            v2.push(c2.toss());
+        }
+
+        assert_eq!(v1, v2);
     }
 
     #[test]
