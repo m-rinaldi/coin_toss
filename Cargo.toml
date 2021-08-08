@@ -11,3 +11,5 @@ description = "minimalist library for coin tossing"
 
 [dependencies]
 rand = "0.8.4"
+rand_core = "0.6.0"
+rand_xoshiro = "0.6.0"
