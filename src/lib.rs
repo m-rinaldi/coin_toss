@@ -3,6 +3,8 @@ use rand_xoshiro::SplitMix64;
 use rand_core::SeedableRng;
 use std::cell::RefCell;
 
+mod iter;
+
 #[derive(Clone, Debug)]
 pub struct Coin {
     prng: RefCell<SplitMix64>,
@@ -43,10 +45,6 @@ impl Coin {
     }
 }
 
-impl IntoIterator for Coin {
-    // TODO
-}
-
 impl CoinFace {
     pub fn flip(&mut self) {
         use CoinFace::*;
@@ -57,6 +55,7 @@ impl CoinFace {
     }
 }
 
+// TODO move to another file
 impl std::ops::Not for CoinFace {
     type Output = Self;
     fn not(mut self) -> Self {
@@ -65,6 +64,7 @@ impl std::ops::Not for CoinFace {
     }
 }
 
+// TODO move to another file
 impl std::fmt::Display for CoinFace {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         let coin_str = match self {
