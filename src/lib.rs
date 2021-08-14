@@ -43,6 +43,10 @@ impl Coin {
     }
 }
 
+impl IntoIterator for Coin {
+    // TODO
+}
+
 impl CoinFace {
     pub fn flip(&mut self) {
         use CoinFace::*;
